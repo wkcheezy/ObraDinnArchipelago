@@ -14,7 +14,7 @@
 
 1. Download your copy of Obra Dinn and locate the game folder.
 
-    - GOG Galaxy: Typically ocated at `GOG Galaxy\Games\Return of the Obra Dinn`
+    - GOG Galaxy: Typically located at `GOG Galaxy\Games\Return of the Obra Dinn`
 
 2. Follow [these instructions](https://docs.bepinex.dev/articles/user_guide/installation/index.html) to install and setup BepInEx.
 3. Once `BepInEx.cfg` is open, follow [these instructions](https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/1_setup.html) to get your development environment setup.
@@ -25,7 +25,7 @@
     dotnet new install BepInEx.Templates::2.0.0-be.4 --nuget-source https://nuget.bepinex.dev/v3/index.json
     ```
 
-4. Once your development environment is setup, clone this project. Once cloned, add a `lib` folder to this project and copy over the following files from the `ObraDinn_Data/Managed` folder (found within the Obra Dinn game folder) to the `lib` folder:
+4. Once your development environment is set up, clone this project. Once cloned, add a `lib` folder to this project and copy over the following files from the `ObraDinn_Data/Managed` folder (found within the Obra Dinn game folder) to the `lib` folder:
 
     - `Assembly-CSharp.dll`
     - `UnityEngine.CoreModule.dll`
