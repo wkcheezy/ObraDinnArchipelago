@@ -3,14 +3,15 @@
     <PropertyGroup>
         <TargetFramework>net35</TargetFramework>
         <AssemblyName>ObraDinnArchipelago</AssemblyName>
-        <Product>Archipelago randomizer for Return of the Obra Dinn</Product>
+        <Product>Archipelago</Product>
+        <Description>Archipelago randomizer for Return of the Obra Dinn</Description>
         <Version>1.0.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
         <RestoreAdditionalProjectSources>
             https://api.nuget.org/v3/index.json;
             https://nuget.bepinex.dev/v3/index.json;
-            https://nuget.samboy.dev/v3/index.json
+<!--            https://nuget.samboy.dev/v3/index.json-->
         </RestoreAdditionalProjectSources>
         <RootNamespace>ObraDinnArchipelago</RootNamespace>
     </PropertyGroup>
@@ -36,5 +37,28 @@
       <Reference Include="UnityEngine.CoreModule">
         <HintPath>lib\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="assets\archiassets" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="properties\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="properties\Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="assets\archiassets" />
     </ItemGroup>
 </Project>
