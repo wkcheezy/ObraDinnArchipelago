@@ -17,7 +17,7 @@ with the .NET desktop and Unity development packages
 
 - [dnSpy v6.5.1](https://github.com/dnSpyEx/dnSpy/releases/tag/v6.5.1) (Optional but recommended)
 
-- [Runtime Unity Editor v5.4](https://github.com/ManlyMarco/RuntimeUnityEditor/releases/tag/v5.4) (Optional but 
+- [Runtime Unity Editor v5.4](https://github.com/ManlyMarco/RuntimeUnityEditor/releases/tag/v5.4) (Optional but
 recommended)
 
 ## A Note on Unity
@@ -35,13 +35,13 @@ setup, hopefully to improve it over time.
 
     - GOG Galaxy: Typically located at `GOG Galaxy\Games\Return of the Obra Dinn`
 
-2. Follow [these instructions](https://docs.bepinex.dev/articles/user_guide/installation/index.html) to install and 
+2. Follow [these instructions](https://docs.bepinex.dev/articles/user_guide/installation/index.html) to install and
 setup BepInEx.
-3. Once `BepInEx.cfg` is open, follow [these instructions](https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/1_setup.html) 
+3. Once `BepInEx.cfg` is open, follow [these instructions](https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/1_setup.html)
 to get your development environment setup.
 
-    - Note: The current stable templates for BepInEx [don't work with .NET v8](https://github.com/BepInEx/BepInEx/issues/778), 
-   so you will need to install the bleeding edge templates instead of the stable ones listed in the instructions. You 
+    - Note: The current stable templates for BepInEx [don't work with .NET v8](https://github.com/BepInEx/BepInEx/issues/778),
+   so you will need to install the bleeding edge templates instead of the stable ones listed in the instructions. You
    can do so by running the following command:
 
     ```shell
@@ -56,11 +56,12 @@ copy over the following files from the `ObraDinn_Data/Managed` folder (found wit
     - `UnityEngine.CoreModule.dll`
     - `UnityEngine.dll`
 
-5. Open a Developer Command Prompt in Visual Studio, then run 
+5. Open a Developer Command Prompt in Visual Studio, then run
 
    ```shell
-   MSBuild.exe ObraDinnArchipelago.proj -property:Configuration=Debug
+   MSBuild.exe ObraDinnArchipelago.csproj -property:Configuration=Debug
    ```
+
    This will generate a `bin/Debug/net35` folder with a `obradinn_archipelago.dll` file.
 6. Copy the `obradinn_archipelago.dll` file to your `BepInEx/plugins` folder and then run the game. A message should
 appear in your console saying that the plugin was loaded!
