@@ -20,11 +20,13 @@ public class Plugin : BaseUnityPlugin
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
         AssetsManager.LoadAssets();
     }
-    
-    // For debugging and development purposes only. For release, comment this code out.
+
+    // For debugging and development purposes only when using Runtime Unity Editor. For release, comment this code out.
+    #if DEBUG
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F12))
             FreeCursor.debug = !FreeCursor.debug;
     }
+    #endif
 }
