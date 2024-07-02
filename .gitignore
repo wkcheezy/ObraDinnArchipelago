@@ -41,3 +41,7 @@ msbuild.wrn
 .vs/
 
 lib/
+
+assets/*
+!assets/archiassets
+!assets/*.cs
