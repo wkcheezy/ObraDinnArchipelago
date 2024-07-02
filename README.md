@@ -56,8 +56,12 @@ copy over the following files from the `ObraDinn_Data/Managed` folder (found wit
     - `UnityEngine.CoreModule.dll`
     - `UnityEngine.dll`
 
-5. Open a Developer Command Prompt in Visual Studio, then run `MSBuild.exe MyProj.proj -property:Configuration=Debug`.
-This will generate a `bin/Debug/net35` folder with a `obradinn_archipelago.dll` file.
+5. Open a Developer Command Prompt in Visual Studio, then run 
+
+   ```shell
+   MSBuild.exe ObraDinnArchipelago.proj -property:Configuration=Debug
+   ```
+   This will generate a `bin/Debug/net35` folder with a `obradinn_archipelago.dll` file.
 6. Copy the `obradinn_archipelago.dll` file to your `BepInEx/plugins` folder and then run the game. A message should
 appear in your console saying that the plugin was loaded!
 
