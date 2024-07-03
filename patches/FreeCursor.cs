@@ -10,8 +10,7 @@ public class FreeCursor
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(RInput), nameof(RInput.UpdateMousePosition))]
-    public static bool RInput_UpdateMousePosition_Prefix(bool appHasFocus,
-        Vector2 ___mousePosition_)
+    public static bool RInput_UpdateMousePosition_Prefix()
     {
         if (debug)
         {
