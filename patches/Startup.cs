@@ -6,7 +6,7 @@ namespace ObraDinnArchipelago.patches;
 [HarmonyPatch]
 public class Startup
 {
-    [HarmonyPatch(typeof(Game), "LoadIntro", MethodType.Normal)]
+    [HarmonyPatch(typeof(Game), nameof(Game.LoadIntro), MethodType.Normal)]
     [HarmonyPrefix]
     static bool Quickstart()
     {
