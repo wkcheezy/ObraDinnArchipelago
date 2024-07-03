@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace ObraDinnArchipelago;
+namespace ObraDinnArchipelago.patches;
 
 [HarmonyPatch]
 public class Startup

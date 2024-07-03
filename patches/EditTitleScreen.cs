@@ -2,7 +2,7 @@
 using ObraDinnArchipelago.Assets;
 using UnityEngine;
 
-namespace ObraDinnArchipelago;
+namespace ObraDinnArchipelago.patches;
 
 [HarmonyPatch(typeof(TitleRoot), "Start", MethodType.Normal)]
 public class EditTitleScreen

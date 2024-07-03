@@ -3,6 +3,7 @@ using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using ObraDinnArchipelago.Assets;
+using ObraDinnArchipelago.patches;
 using UnityEngine;
 
 namespace ObraDinnArchipelago;
