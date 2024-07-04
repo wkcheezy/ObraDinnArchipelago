@@ -24,16 +24,4 @@ public class Startup
         
         return false;
     }
-    //[HarmonyPatch(typeof(BookTut), nameof(BookTut.Start), MethodType.Normal)]
-    //[HarmonyPrefix]
-    //static bool CutTutorial()
-    //{
-    //    SaveData.it.general.helpedBookBookmarks = true;
-    //    SaveData.it.general.helpedBookDifficulty = true;
-    //    SaveData.it.general.helpedBookFaceBlur = true;
-    //    SaveData.it.general.helpedBookFaceClear = true;
-    //    SaveData.it.general.helpedBookFatesCheck = true;
-    //    SaveData.it.general.helpedBookUsage = true;
-    //    return false;
-    //}
 }
