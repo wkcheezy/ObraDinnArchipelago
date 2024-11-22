@@ -55,6 +55,7 @@ copy over the following files from the `ObraDinn_Data/Managed` folder (found wit
     - `Assembly-CSharp.dll`
     - `UnityEngine.CoreModule.dll`
     - `UnityEngine.dll`
+    - `UnityEngine.UI.dll`
 
 5. Open a Developer Command Prompt in Visual Studio, then run
 
