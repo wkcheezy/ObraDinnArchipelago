@@ -45,3 +45,4 @@ lib/
 assets/*
 !assets/archiassets
 !assets/*.cs
+game/

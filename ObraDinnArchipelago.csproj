@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net35</TargetFramework>
@@ -68,5 +68,12 @@
 
     <ItemGroup>
       <Folder Include="lib\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="game/*" />
+      <Compile Remove="game\**" />
+      <EmbeddedResource Remove="game\**" />
+      <None Remove="game\**" />
     </ItemGroup>
 </Project>
