@@ -76,4 +76,12 @@
       <EmbeddedResource Remove="game\**" />
       <None Remove="game\**" />
     </ItemGroup>
+    
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <PropertyGroup>
+            <PluginsDirectory>OBRA DINN BEPPINX PLUGINS DIRECTORY GOES HERE</PluginsDirectory>
+        </PropertyGroup>
+        <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="$(PluginsDirectory)"/>
+    </Target>
+
 </Project>
