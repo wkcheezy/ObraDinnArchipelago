@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using HarmonyLib;
+﻿using HarmonyLib;
+using System.Collections.Generic;
 
-namespace ObraDinnArchipelago.patches;
+namespace ObraDinnArchipelago.Patches;
 
 [HarmonyPatch(typeof(Manifest))]
-public class Randomizer
+internal class Randomizer
 {
     // TODO: This works to remove entities from the list, but it should replace them with [REDACTED] or something to help mark it as a check
     [HarmonyPatch(nameof(Manifest.IterateEnts), MethodType.Normal)]

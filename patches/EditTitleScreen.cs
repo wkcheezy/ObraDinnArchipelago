@@ -2,10 +2,10 @@
 using ObraDinnArchipelago.Assets;
 using UnityEngine;
 
-namespace ObraDinnArchipelago.patches;
+namespace ObraDinnArchipelago.Patches;
 
 [HarmonyPatch(typeof(TitleRoot), "Start", MethodType.Normal)]
-public class EditTitleScreen
+internal class EditTitleScreen
 {
     [HarmonyPostfix]
     static void UpdateTitleTexture()

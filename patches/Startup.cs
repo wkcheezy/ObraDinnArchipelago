@@ -2,10 +2,10 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace ObraDinnArchipelago.patches;
+namespace ObraDinnArchipelago.Patches;
 
 [HarmonyPatch]
-public class Startup
+internal class Startup
 {
     [HarmonyPatch(typeof(Game), nameof(Game.LoadIntro), MethodType.Normal)]
     [HarmonyPrefix]

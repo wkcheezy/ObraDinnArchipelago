@@ -1,10 +1,10 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace ObraDinnArchipelago.patches;
+namespace ObraDinnArchipelago.Patches;
 
 [HarmonyPatch]
-public class FreeCursor
+internal class FreeCursor
 {
     public static bool debug = false;
 
