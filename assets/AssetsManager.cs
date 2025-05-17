@@ -6,7 +6,8 @@ internal static class AssetsManager
 {
     private static AssetBundle assetBundle;
 
-    internal static Sprite titleSprite;
+    //internal static Sprite titleSprite;
+    internal static GameObject serverInput, overlay;
 
     internal static void LoadAssets()
     {
@@ -14,10 +15,12 @@ internal static class AssetsManager
 
         if (!assetBundle)
         {
-            Plugin.Logger.LogError("The asset bundle could not be loaded");
+            ArchipelagoModPlugin.Log.LogError("The asset bundle could not be loaded");
             return;
         }
 
-        titleSprite = assetBundle.LoadAsset<Sprite>("Title.png");
+        //titleSprite = assetBundle.LoadAsset<Sprite>("Title.png");
+        serverInput = assetBundle.LoadAsset<GameObject>("Connections.prefab");
+        overlay = assetBundle.LoadAsset<GameObject>("Overlay.prefab");
     }
 }

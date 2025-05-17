@@ -8,8 +8,10 @@
 
 - [.NET 8.0](https://dotnet.microsoft.com/en-us/download)
 
-- [Visual Studio Community Edition](https://visualstudio.microsoft.com/free-developer-offers/),
-with the .NET desktop and Unity development packages
+- A C#/.NET compliant IDE
+  - [Visual Studio Community Edition](https://visualstudio.microsoft.com/free-developer-offers/),
+  with the .NET desktop and Unity development packages
+  - JetBrains Rider
 
 - [Unity 2017.4.37](https://unity.com/releases/editor/whats-new/2017.4.37) (Optional, for creating assets)
 
@@ -91,12 +93,16 @@ appear in your console saying that the plugin was loaded!
             BuildPipeline.BuildAssetBundles(assetBundleDirectory,
                                             BuildAssetBundleOptions.None,
                                             BuildTarget.StandaloneWindows);
+            
+            
+            FileUtil.ReplaceFile("Assets/AssetBundles/archiassets", "[YOUR PROJECT'S ARCHIASSETS FILE PATH HERE]");
         }
     }   
    ```
 
-5. Right-click your `Assets` folder and click on `Build AssetBundles`.
-6. In the new `AssetBundles` folder, copy the `archiassets` file into your `assets` folder.
+5. If you have not done so already, select the prefabs and assets you want to include in the bundle and, in the Asset 
+Labels windows, select the "archiassets" label (create it if not already done so).
+6. Right-click your `Assets` folder and click on `Build AssetBundles`.
 7. Repeat Steps 5-6 whenever you add a new asset or edit an existing one.
 
 ## dnSpy Setup and Use
@@ -120,3 +126,6 @@ already
 
 Follow [these instructions](https://github.com/ManlyMarco/RuntimeUnityEditor/tree/9d3d7123c2c831979a376dcc68d3e76f3d164924?tab=readme-ov-file#bepinex)
 to get Runtime Unity Editor set up.
+
+https://github.com/dnSpy/dnSpy-Unity-mono
+https://github.com/dnSpyEx/dnSpy/wiki/Debugging-Unity-Games#turning-a-release-build-into-a-debug-build
