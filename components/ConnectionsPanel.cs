@@ -224,15 +224,14 @@ internal class ConnectionsPanel : MonoBehaviour
 
     private void Update()
     {
-        // TODO: Add 'A' and 'D' controls
-        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
+        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
         {
-            if (Input.GetKeyUp(KeyCode.LeftArrow) && pageNum > 1)
+            if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)) && pageNum > 1)
             {
                 pageNum--;
                 UpdateFileListings();
             }
-            else if (Input.GetKeyUp(KeyCode.RightArrow) &&
+            else if ((Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)) &&
                      pageNum < Math.Max((int)Math.Ceiling((decimal)dataList.Count / maxDisplay), 1))
             {
                 pageNum++;
