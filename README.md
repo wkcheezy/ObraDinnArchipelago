@@ -1,17 +1,60 @@
 # Obra Dinn Archipelago
 
-## Dev Requirements
+This is a mod to make *Return of the Obra Dinn* [Archipelago](https://archipelago.gg/) compatible.
+
+Note: *Return of the Obra Dinn* will not be merged into the main Archipelago repo due to its 18+ rating; as such, you
+will need the host of your Archipelago session to manually generate the required Archipelago zip file instead of using
+the website's generator. Instructions to do so can be
+found [here](https://archipelago.gg/tutorial/Archipelago/setup/en#on-your-local-installation)
+
+## Setup Instructions
+
+### First Time Setup
+
+1. [Add the latest APWorld](https://github.com/wkcheezy/ObraDinnArchipelagoWorld/releases) to your Archipelago 'worlds'
+   folder
+2. [Install BepInEx](https://docs.bepinex.dev/articles/user_guide/installation/index.html#installing-bepinex) Note: If
+   on Windows, use the x86 version
+3. [Download and unzip the latest release](https://github.com/wkcheezy/ObraDinnArchipelago/releases) to the bepinex plugins folder
+
+### Connecting to Archipelago
+
+1. Create your YAML file **Note: It's highly
+   recommended that you use different slot names for each Archipelago session, to help differentiate between saved
+   sessions**
+2. Launch the Obra Dinn client in the main Archipelago client (should be a button in the right column that says "Return
+   of the Obra Dinn Client")
+3. Connect to your session through the Obra Dinn client
+4. Once connected, launch your copy of *Return of the Obra Dinn* and click "Start"
+5. If you're connecting to a session you've connected to before, the slot name and start date should be listed; click on
+   it and you should connect automatically
+6. If you're connecting to a new sessions, click on "New Connection". Enter the following details, then hit Connect
+    1. The first text box lists the **Obra Dinn client** address, not the Archipelago server address, and as such should
+       not need to be changed from the default (Future update will allow the client to swap from its default port, so
+       that's what this text box is for)
+    2. Enter your slot name in the second text box
+    3. Enter the server password in the third text box; if there's no password, clear the field
+7. If the details you've entered match an existing connection's details, you'll be warned that there's an existing save
+   file that might be the one you want to connect with. If you're 100% certain that you need to create a new session
+   connection, hit 'Connect' again. You should be connected!
+
+Note: These instructions are to set up the mod in its current prerelease state. The plan is to eventually distribute mod
+on a mod loader/hoster website to reduce manual setup; once that happens, these instructions will be updated
+
+## Development
+
+### Requirements
 
 - [PC Copy of *Return of the Obra Dinn*](https://obradinn.com/)
 
-- [BepInEx x86 v5.4.23.2](https://github.com/BepInEx/BepInEx/releases/tag/v5.4.23.2)
+- [BepInEx x86 v5.4.23.2](https://github.com/BepInEx/BepInEx/releases/tag/v5.4.23.2) or higher (but not v6)
 
 - [.NET 8.0](https://dotnet.microsoft.com/en-us/download)
 
 - A C#/.NET compliant IDE
-  - [Visual Studio Community Edition](https://visualstudio.microsoft.com/free-developer-offers/),
-  with the .NET desktop and Unity development packages
-  - JetBrains Rider
+    - [Visual Studio Community Edition](https://visualstudio.microsoft.com/free-developer-offers/),
+      with the .NET desktop and Unity development packages
+    - [JetBrains Rider](https://www.jetbrains.com/rider/download/)
 
 - [Unity 2017.4.37](https://unity.com/releases/editor/whats-new/2017.4.37) (Optional, for creating assets)
 
@@ -20,9 +63,9 @@
 - [dnSpy v6.5.1](https://github.com/dnSpyEx/dnSpy/releases/tag/v6.5.1) (Optional but recommended)
 
 - [Runtime Unity Editor v5.4](https://github.com/ManlyMarco/RuntimeUnityEditor/releases/tag/v5.4) (Optional but
-recommended)
+  recommended)
 
-## A Note on Unity
+#### A Note on Unity
 
 The version of Unity used to create *Return of the Obra Dinn* is a bit of a unique version.
 It was the last to offer direct support for AssetBundles, it doesn't have direct support for Unity Package Manager, and
@@ -31,28 +74,30 @@ development setup functional for modding this game. These instructions may not p
 but it was what I was able to get working without any of the previously mentioned features. I'll continue to tweak the
 setup, hopefully to improve it over time.
 
-## Development Setup
+### Code Setup
 
 1. Download your copy of Obra Dinn and locate the game folder.
 
     - GOG Galaxy: Typically located at `GOG Galaxy\Games\Return of the Obra Dinn`
 
 2. Follow [these instructions](https://docs.bepinex.dev/articles/user_guide/installation/index.html) to install and
-setup BepInEx.
-3. Once `BepInEx.cfg` is open, follow [these instructions](https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/1_setup.html)
-to get your development environment setup.
+   setup BepInEx.
+3. Once `BepInEx.cfg` is open,
+   follow [these instructions](https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/1_setup.html)
+   to get your development environment setup.
 
-    - Note: The current stable templates for BepInEx [don't work with .NET v8](https://github.com/BepInEx/BepInEx/issues/778),
-   so you will need to install the bleeding edge templates instead of the stable ones listed in the instructions. You
-   can do so by running the following command:
+    - Note: The current stable templates for
+      BepInEx [don't work with .NET v8](https://github.com/BepInEx/BepInEx/issues/778),
+      so you will need to install the bleeding edge templates instead of the stable ones listed in the instructions. You
+      can do so by running the following command:
 
     ```shell
     dotnet new install BepInEx.Templates::2.0.0-be.4 --nuget-source https://nuget.bepinex.dev/v3/index.json
    ```
 
 4. Once your development environment is set up, clone this project. Once cloned, add a `lib` folder to this project and
-copy over the following files from the `ObraDinn_Data/Managed` folder (found within the Obra Dinn game folder) to the
-`lib` folder:
+   copy over the following files from the `ObraDinn_Data/Managed` folder (found within the Obra Dinn game folder) to the
+   `lib` folder:
 
     - `Assembly-CSharp.dll`
     - `UnityEngine.CoreModule.dll`
@@ -67,9 +112,9 @@ copy over the following files from the `ObraDinn_Data/Managed` folder (found wit
 
    This will generate a `bin/Debug/net35` folder with a `obradinn_archipelago.dll` file.
 6. Copy the `obradinn_archipelago.dll` file to your `BepInEx/plugins` folder and then run the game. A message should
-appear in your console saying that the plugin was loaded!
+   appear in your console saying that the plugin was loaded!
 
-## Asset Workflow Setup
+### Asset Workflow Setup
 
 1. Create a new Unity project
 2. In your assets folder, add a new folder called `Editor`
@@ -100,29 +145,29 @@ appear in your console saying that the plugin was loaded!
     }   
    ```
 
-5. If you have not done so already, select the prefabs and assets you want to include in the bundle and, in the Asset 
-Labels windows, select the "archiassets" label (create it if not already done so).
+5. If you have not done so already, select the prefabs and assets you want to include in the bundle and, in the Asset
+   Labels windows, select the "archiassets" label (create it if not already done so).
 6. Right-click your `Assets` folder and click on `Build AssetBundles`.
 7. Repeat Steps 5-6 whenever you add a new asset or edit an existing one.
 
-## dnSpy Setup and Use
+### dnSpy Setup and Use
 
 1. Download [dnSpy v6.5.1](https://github.com/dnSpyEx/dnSpy/releases/tag/v6.5.1) if you have not done so already
 2. In the downloaded file, run `dnSpy.exe`
 3. In the *Assembly Explorer*, remove any files already there (Select, Right-click, `Del`)
 4. Open your *Return of the Obra Dinn* game folder, then open `ObraDinn_Data/Managed`
 5. Click and drag `Assembly-CSharp.dll` into the *Assembly Explorer*. The game files will be located under the
-`Assembly-Csharp.dll` dropdown, under `-`
+   `Assembly-Csharp.dll` dropdown, under `-`
 
-## AssetStudio Setup and Use
+### AssetStudio Setup and Use
 
 1. Download [AssetStudio v0.16.47](https://github.com/Perfare/AssetStudio/releases/tag/v0.16.47) if you have not done so
-already
+   already
 2. In the downloaded folder, run `AssetStudioGUI.exe`
 3. Once the program opens, click `File`, then `Load Folder`. Select your `ObraDinn_Data` folder located in your
-*Return of the Obra Dinn* game folder, then hit `Select Folder`. The assets will be under the `Asset List` tab.
+   *Return of the Obra Dinn* game folder, then hit `Select Folder`. The assets will be under the `Asset List` tab.
 
-## Runtime Unity Editor Setup and Use
+### Runtime Unity Editor Setup and Use
 
 Follow [these instructions](https://github.com/ManlyMarco/RuntimeUnityEditor/tree/9d3d7123c2c831979a376dcc68d3e76f3d164924?tab=readme-ov-file#bepinex)
 to get Runtime Unity Editor set up.
