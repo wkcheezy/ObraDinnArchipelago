@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using ObraDinnArchipelago.Archipelago;
 using ObraDinnArchipelago.Patches;
 using UnityEngine;
@@ -10,6 +10,7 @@ internal class NewConnectionPanel : MonoBehaviour
 {
     private Button _connectButton;
     private InputField _addressInput, _slotInput, _passwordInput;
+    private bool _confirmNewSave;
 
     private void Awake()
     {
@@ -20,25 +21,23 @@ internal class NewConnectionPanel : MonoBehaviour
         _slotInput = inputFields[1];
         _passwordInput = inputFields[2];
         _connectButton = transform.Find("Center Holder/Center Panel/Connect Button").GetComponent<Button>();
-
-        // TODO: Need to add a cancel button that closes the new connection dialog
         // TODO: When hovering over a text panel, focus will switch to that panel even if currently typing in another
         _connectButton.onClick.AddListener(() =>
         {
+            if (transform.parent.GetComponentInChildren<ConnectionsPanel>().dataList
+                .Any(d => d.Value.Data.slotName == _slotInput.text && d.Value.Data.password == _passwordInput.text) && _confirmNewSave == false)
+            {
+                _confirmNewSave = true;
+                InitArchipelago.GetArchipelagoComponent().Logs.Add(new LogEntry("Found existing save file. To confirm creating new save file with same details, click connect again"));
+                return;
+            }
             if (ArchipelagoClient.IsConnecting) return;
             if (_addressInput.text.Contains(":"))
             {
                 var addressDetails = _addressInput.text.Split(':');
-                // TODO: Players are loading in to the ship before the connection fully goes through (though its only by a couple seconds so it might be fine)
                 ArchipelagoClient.ConnectAsync(addressDetails[0], int.Parse(addressDetails[1].Replace(":", "")),
                     _slotInput.text, _passwordInput.text);
-                var saveData = new SaveData();
-                saveData.Reset();
-                ArchipelagoData.saveId = Guid.NewGuid().ToString();
-                saveData.Save(ArchipelagoData.saveId);
-                Settings.activeSaveId = ArchipelagoData.saveId;
-                gameObject.SetActive(false);
-                Game.LoadStartingShip();
+                _confirmNewSave = false;
             }
             else
             {
@@ -64,8 +63,7 @@ internal class NewConnectionPanel : MonoBehaviour
     private void Update()
     {
         if (!Input.GetKeyUp(KeyCode.Escape) || ArchipelagoClient.IsConnecting) return;
-        {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive(false);
+        _confirmNewSave = false;
     }
 }

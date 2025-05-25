@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Models;
+using JetBrains.Annotations;
 using ObraDinnArchipelago.Components;
 using ObraDinnArchipelago.Patches;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ObraDinnArchipelago.Archipelago;
 
@@ -20,6 +23,8 @@ internal static class ArchipelagoManager
     private static Queue<ObraDinnItemInfo> itemQueue = new();
 
     private static Queue<ObraDinnItemInfo> itemsToVerifyQueue = new();
+
+    [CanBeNull] public static ArchipelagoFile connectionDetails = null;
 
     internal static void Init()
     {
@@ -68,6 +73,31 @@ internal static class ArchipelagoManager
 
     private static void OnConnectAttempt(LoginResult result)
     {
+        if (result.Successful)
+        {
+            if (connectionDetails == null)
+            {
+                var saveData = new SaveData(); 
+                saveData.Reset(); 
+                ArchipelagoData.saveId = Guid.NewGuid().ToString(); 
+                saveData.Save(ArchipelagoData.saveId); 
+                Settings.activeSaveId = ArchipelagoData.saveId; 
+                Object.FindObjectOfType<NewConnectionPanel>().gameObject.SetActive(false); 
+                Game.LoadStartingShip();
+            }
+            else
+            {
+                ArchipelagoData.Data = connectionDetails.Data;
+                ArchipelagoData.saveId = Path.GetFileNameWithoutExtension(connectionDetails.FileName);
+                InitializeFromServer();
+                VerifyAllItems();
+
+                // TODO: Need to ensure when switching between saves that we're loading the correct save
+                Settings.activeSaveId = ArchipelagoData.saveId;
+                Game.LoadSave(ArchipelagoData.saveId);
+            }
+            connectionDetails = null;
+        }
         // TODO: Switch the successful login sound to bell chime
         AudioClip sound = InitArchipelago.GetLoggerAudio().effects.Find(e => e.id ==
                                                                              (result.Successful
@@ -75,7 +105,7 @@ internal static class ArchipelagoManager
                                                                                  : "Disconnected")).clips.clips[0];
         AudioOneShot.Play(sound);
     }
-
+    
     internal static void InitializeFromServer()
     {
         // if (ArchipelagoClient.SlotData.TryGetValue("death_link", out var deathLink))

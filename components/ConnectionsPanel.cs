@@ -20,7 +20,7 @@ internal class ArchipelagoFile(string fileName, ArchipelagoData data)
 internal class ConnectionsPanel : MonoBehaviour
 {
     private GameObject _existingConnectionsPanel;
-    private SortedList<DateTime, ArchipelagoFile> _dataList = new();
+    public SortedList<DateTime, ArchipelagoFile> dataList = new();
     private int pageNum = 1;
     private const int maxDisplay = 5;
     private Text pageNumText;
@@ -40,7 +40,6 @@ internal class ConnectionsPanel : MonoBehaviour
             }
         }
 
-        // TODO: Check to make sure that there's a matching save file for each data file
         string[] archDataFiles = Directory.GetFiles(ArchipelagoSaveData.SavesPath, "*.json");
         foreach (var dataFile in archDataFiles)
         {
@@ -78,7 +77,7 @@ internal class ConnectionsPanel : MonoBehaviour
 
                 try
                 {
-                    _dataList.Add(File.GetCreationTime(dataFile), new ArchipelagoFile(dataFile, loadedData));
+                    dataList.Add(File.GetCreationTime(dataFile), new ArchipelagoFile(dataFile, loadedData));
                 }
                 catch (Exception e)
                 {
@@ -129,7 +128,7 @@ internal class ConnectionsPanel : MonoBehaviour
         existingConnectionPanel.transform.GetChild(0).GetComponent<Button>().onClick
             .AddListener(() => { newConnectionsPanel.SetActive(true); });
         var existingConnectionPrefab = existingConnectionPanel.transform.GetChild(1);
-        foreach (var connection in _dataList.Reverse().Take(maxDisplay))
+        foreach (var connection in dataList.Reverse().Take(maxDisplay))
         {
             var newExistingConnection = Instantiate(existingConnectionPrefab, existingConnectionPanel.transform, false);
             var listItem = newExistingConnection.GetChild(0);
@@ -140,12 +139,12 @@ internal class ConnectionsPanel : MonoBehaviour
             listItem.GetComponent<Button>().onClick.AddListener(() =>
             {
                 if (ArchipelagoClient.IsConnecting) return;
+                
+                ArchipelagoManager.connectionDetails = connection.Value;
 
                 ArchipelagoClient.ConnectAsync(connection.Value.Data.hostName, connection.Value.Data.port,
                     connection.Value.Data.slotName, connection.Value.Data.password);
-                ArchipelagoData.Data = connection.Value.Data;
-                ArchipelagoData.saveId = Path.GetFileNameWithoutExtension(connection.Value.FileName);
-                StartCoroutine(PostConnect(ArchipelagoData.saveId));
+                
             });
 
             listItem.GetComponent<ListButton>().texts = [text];
@@ -162,7 +161,7 @@ internal class ConnectionsPanel : MonoBehaviour
         var pageButtonPanel = transform.Find("ConnectionsPanel/Center Holder/Center Panel/Page Buttons Panel");
         pageButtonPanel.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(() =>
         {
-            if (pageNum >= Math.Max((int)Math.Ceiling((decimal)_dataList.Count / maxDisplay), 1)) return;
+            if (pageNum >= Math.Max((int)Math.Ceiling((decimal)dataList.Count / maxDisplay), 1)) return;
             pageNum++;
             // TODO: Would be better code if we combine these calls/methods somehow since we seem to be doing both one after another
             UpdateFileListings();
@@ -193,7 +192,7 @@ internal class ConnectionsPanel : MonoBehaviour
 
     private void UpdatePageText()
     {
-        pageNumText.text = $"{pageNum} / {Math.Max((int)Math.Ceiling((decimal)_dataList.Count / maxDisplay), 1)}";
+        pageNumText.text = $"{pageNum} / {Math.Max((int)Math.Ceiling((decimal)dataList.Count / maxDisplay), 1)}";
     }
 
     private void UpdateFileListings()
@@ -206,7 +205,7 @@ internal class ConnectionsPanel : MonoBehaviour
             {
                 if (value.child.activeSelf == false) value.child.SetActive(true);
                 var text = value.child.GetComponentInChildren<Text2>();
-                var connection = _dataList.Reverse().ElementAt(dataIndex);
+                var connection = dataList.Reverse().ElementAt(dataIndex);
                 text.text = $"{connection.Value.Data.slotName} ({connection.Key})";
                 var button = value.child.GetComponentInChildren<Button>();
                 button.onClick.RemoveAllListeners();

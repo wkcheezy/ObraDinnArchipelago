@@ -104,8 +104,7 @@ internal static class ArchipelagoClient
     private static void Connect(OnConnectAttempt attempt, int port, string host)
     {
         LoginResult result;
-        // TODO: Check that the address and port provided match the end server (not the client) to prevent someone from joining with a older/unconnected save file
-        // TODO: Remove address input and standardize the address, since thats handled by the PyClient
+
         try
         {
             Session = CreateSession(port, host);
@@ -153,8 +152,7 @@ internal static class ArchipelagoClient
 
             Disconnect();
         }
-
-        OnConnectAttemptDone?.Invoke(result);
+        OnConnectAttemptDone.Invoke(result);
 
         _isConnecting = false;
     }
