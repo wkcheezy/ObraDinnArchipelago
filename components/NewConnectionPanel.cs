@@ -56,7 +56,7 @@ internal class NewConnectionPanel : MonoBehaviour
         // Reset the text fields back to their default if there's not there already
         // TODO: Need to use a graphic to set a placeholder so we don't necessarily have to do this
 
-        _addressInput.text = "Address";
+        _addressInput.text = "localhost:8399";
         _slotInput.text = "Slot";
         _passwordInput.text = "Password";
     }

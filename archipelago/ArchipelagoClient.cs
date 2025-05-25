@@ -108,7 +108,7 @@ internal static class ArchipelagoClient
         // TODO: Remove address input and standardize the address, since thats handled by the PyClient
         try
         {
-            Session = CreateSession(8399, "localhost");
+            Session = CreateSession(port, host);
             result = Session.TryConnectAndLogin(
                 "Return of the Obra Dinn",
                 ArchipelagoData.Data.slotName,
@@ -204,7 +204,7 @@ internal static class ArchipelagoClient
             ArchipelagoData.Data.receivedItems.Add(newItemInfo);
 
             OnNewItemReceived?.Invoke(newItemInfo);
-            ArchipelagoModPlugin.Log.LogInfo("Item recieved");
+            ArchipelagoModPlugin.Log.LogInfo("Item received");
         }
         else
         {
