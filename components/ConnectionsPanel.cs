@@ -11,7 +11,6 @@ using UnityEngine.UI;
 
 namespace ObraDinnArchipelago.Components;
 
-// TODO: Remove address input (or just disable/prefill it)
 internal class ArchipelagoFile(string fileName, ArchipelagoData data)
 {
     public readonly string FileName = fileName;
@@ -22,7 +21,10 @@ internal class ConnectionsPanel : MonoBehaviour
 {
     private GameObject _existingConnectionsPanel;
     private SortedList<DateTime, ArchipelagoFile> _dataList = new();
-    
+    private int pageNum = 1;
+    private const int maxDisplay = 5;
+    private Text pageNumText;
+
     private void InitializeSaves()
     {
         if (!Directory.Exists(ArchipelagoSaveData.SavesPath))
@@ -37,6 +39,7 @@ internal class ConnectionsPanel : MonoBehaviour
                 return;
             }
         }
+
         // TODO: Check to make sure that there's a matching save file for each data file
         string[] archDataFiles = Directory.GetFiles(ArchipelagoSaveData.SavesPath, "*.json");
         foreach (var dataFile in archDataFiles)
@@ -52,9 +55,9 @@ internal class ConnectionsPanel : MonoBehaviour
                 ArchipelagoModPlugin.Log.LogError("Failed to load save data from " + dataFile + ": " + e.Message);
                 continue;
             }
-            
+
             ArchipelagoData loadedData;
-    
+
             try
             {
                 loadedData = JsonConvert.DeserializeObject<ArchipelagoData>(dataContent);
@@ -63,16 +66,16 @@ internal class ConnectionsPanel : MonoBehaviour
             {
                 loadedData = null;
             }
-            
+
             if (loadedData != null)
             {
                 if (!SaveData.CanLoad(Path.GetFileNameWithoutExtension(dataFile)))
                 {
                     ArchipelagoModPlugin.Log.LogError("Missing save file for \"" + dataFile + "\".");
                 }
-                
+
                 loadedData.itemsUnaccountedFor = [..loadedData.receivedItems];
-    
+
                 try
                 {
                     _dataList.Add(File.GetCreationTime(dataFile), new ArchipelagoFile(dataFile, loadedData));
@@ -88,11 +91,11 @@ internal class ConnectionsPanel : MonoBehaviour
                                                   "\". The file might be corrupted or is unsupported by this version of the mod.");
             }
         }
-    
+
         // TODO: Likely need to get this working to refresh the saves list
         // LayoutRebuilder.ForceRebuildLayoutImmediate(this.gameObject);
     }
-    
+
     // public void OnSaveFileDeleted(string saveName)
     // {
     //     // TODO: Add logging
@@ -121,22 +124,25 @@ internal class ConnectionsPanel : MonoBehaviour
         ArchipelagoData.Data = new ArchipelagoData();
         var newConnectionsPanel = transform.GetChild(1).gameObject;
         newConnectionsPanel.AddComponent<NewConnectionPanel>();
-        var existingConnectionPanel= transform.Find("ConnectionsPanel/Center Holder/Center Panel/Items Panel").gameObject;
-        existingConnectionPanel.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(() => {newConnectionsPanel.SetActive(true);});
+        var existingConnectionPanel =
+            transform.Find("ConnectionsPanel/Center Holder/Center Panel/Items Panel").gameObject;
+        existingConnectionPanel.transform.GetChild(0).GetComponent<Button>().onClick
+            .AddListener(() => { newConnectionsPanel.SetActive(true); });
         var existingConnectionPrefab = existingConnectionPanel.transform.GetChild(1);
-        foreach (var connection in _dataList.Reverse())
+        foreach (var connection in _dataList.Reverse().Take(maxDisplay))
         {
             var newExistingConnection = Instantiate(existingConnectionPrefab, existingConnectionPanel.transform, false);
             var listItem = newExistingConnection.GetChild(0);
             var text = listItem.GetChild(0).GetChild(0).GetComponent<Text2>();
             text.text = $"{connection.Value.Data.slotName} ({connection.Key})";
-            
+
             listItem.GetComponent<Button>().onClick.RemoveAllListeners();
             listItem.GetComponent<Button>().onClick.AddListener(() =>
             {
                 if (ArchipelagoClient.IsConnecting) return;
-                
-                ArchipelagoClient.ConnectAsync(connection.Value.Data.hostName, connection.Value.Data.port, connection.Value.Data.slotName, connection.Value.Data.password);
+
+                ArchipelagoClient.ConnectAsync(connection.Value.Data.hostName, connection.Value.Data.port,
+                    connection.Value.Data.slotName, connection.Value.Data.password);
                 ArchipelagoData.Data = connection.Value.Data;
                 ArchipelagoData.saveId = Path.GetFileNameWithoutExtension(connection.Value.FileName);
                 StartCoroutine(PostConnect(ArchipelagoData.saveId));
@@ -145,12 +151,30 @@ internal class ConnectionsPanel : MonoBehaviour
             listItem.GetComponent<ListButton>().texts = [text];
             newExistingConnection.SetAsLastSibling();
         }
-        
+
         // Update page counter
         var spacerPanel = existingConnectionPanel.transform.GetChild(2);
         var pageNumber = spacerPanel.transform.GetChild(0);
-        pageNumber.GetComponent<Text>().text = $"1 / {Math.Max((int)Math.Ceiling((decimal)_dataList.Count / 5), 1)}";
+        pageNumText = pageNumber.GetComponent<Text>();
+        UpdatePageText();
         spacerPanel.SetAsLastSibling();
+
+        var pageButtonPanel = transform.Find("ConnectionsPanel/Center Holder/Center Panel/Page Buttons Panel");
+        pageButtonPanel.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(() =>
+        {
+            if (pageNum >= Math.Max((int)Math.Ceiling((decimal)_dataList.Count / maxDisplay), 1)) return;
+            pageNum++;
+            // TODO: Would be better code if we combine these calls/methods somehow since we seem to be doing both one after another
+            UpdateFileListings();
+            UpdatePageText();
+        });
+        pageButtonPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() =>
+        {
+            if (pageNum <= 1) return;
+            pageNum--;
+            UpdateFileListings();
+            UpdatePageText();
+        });
 
         // Hide connection list entry prefab
         existingConnectionPrefab.gameObject.SetActive(false);
@@ -161,11 +185,68 @@ internal class ConnectionsPanel : MonoBehaviour
 
     private void OnEnable()
     {
+        pageNum = 1;
+        UpdateFileListings();
+        UpdatePageText();
         _existingConnectionsPanel.SetActive(true);
+    }
+
+    private void UpdatePageText()
+    {
+        pageNumText.text = $"{pageNum} / {Math.Max((int)Math.Ceiling((decimal)_dataList.Count / maxDisplay), 1)}";
+    }
+
+    private void UpdateFileListings()
+    {
+        foreach (var value in _existingConnectionsPanel.AllChildren().Select((child, i) => new {child, i}))
+        {
+            if (value.child.name != "Existing Connection(Clone)") continue;
+            var dataIndex = value.i - 2 + maxDisplay * (pageNum - 1);
+            if (dataIndex > _dataList.Count) value.child.SetActive(false);
+            else
+            {
+                if (value.child.activeSelf == false) value.child.SetActive(true);
+                var text = value.child.GetComponentInChildren<Text2>();
+                var connection = _dataList.Reverse().ElementAt(dataIndex);
+                text.text = $"{connection.Value.Data.slotName} ({connection.Key})";
+                var button = value.child.GetComponentInChildren<Button>();
+                button.onClick.RemoveAllListeners();
+                button.onClick.AddListener(() =>
+                {
+                    if (ArchipelagoClient.IsConnecting) return;
+
+                    ArchipelagoClient.ConnectAsync(connection.Value.Data.hostName, connection.Value.Data.port,
+                        connection.Value.Data.slotName, connection.Value.Data.password);
+                    ArchipelagoData.Data = connection.Value.Data;
+                    ArchipelagoData.saveId = Path.GetFileNameWithoutExtension(connection.Value.FileName);
+                    StartCoroutine(PostConnect(ArchipelagoData.saveId));
+                });
+
+                value.child.GetComponent<ListButton>().texts = [text];
+            }
+        }
     }
 
     private void Update()
     {
+        // TODO: Add 'A' and 'D' controls
+        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            if (Input.GetKeyUp(KeyCode.LeftArrow) && pageNum > 1)
+            {
+                pageNum--;
+                UpdateFileListings();
+            }
+            else if (Input.GetKeyUp(KeyCode.RightArrow) &&
+                     pageNum < Math.Max((int)Math.Ceiling((decimal)_dataList.Count / maxDisplay), 1))
+            {
+                pageNum++;
+                UpdateFileListings();
+            }
+
+            UpdatePageText();
+        }
+
         if (!Input.GetKeyUp(KeyCode.Escape)) return;
         if (transform.GetChild(1).gameObject.activeSelf == false)
         {
@@ -183,17 +264,17 @@ internal class ConnectionsPanel : MonoBehaviour
         // {
         //
         // }
-            
+
         yield return new WaitForSeconds(0.75f);
-    
+
         ArchipelagoManager.InitializeFromServer();
-    
+
         yield return null;
-        
+
         ArchipelagoManager.VerifyAllItems();
-    
+
         yield return null;
-        
+
         // TODO: Need to ensure when switching between saves that we're loading the correct save
         Settings.activeSaveId = ArchipelagoData.saveId;
         Game.LoadSave(saveId);
