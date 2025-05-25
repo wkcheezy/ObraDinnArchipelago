@@ -163,7 +163,16 @@ internal class ConnectionsPanel : MonoBehaviour
     {
         _existingConnectionsPanel.SetActive(true);
     }
-    
+
+    private void Update()
+    {
+        if (!Input.GetKeyUp(KeyCode.Escape)) return;
+        if (transform.GetChild(1).gameObject.activeSelf == false)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     private IEnumerator PostConnect(string saveId)
     {
         yield return new WaitUntil(() => !ArchipelagoClient.IsConnecting);

@@ -60,4 +60,12 @@ internal class NewConnectionPanel : MonoBehaviour
         _slotInput.text = "Slot";
         _passwordInput.text = "Password";
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            gameObject.SetActive(false);
+        }
+    }
 }
