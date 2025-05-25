@@ -203,6 +203,7 @@ internal static class ArchipelagoClient
 
             OnNewItemReceived?.Invoke(newItemInfo);
             ArchipelagoModPlugin.Log.LogInfo("Item received");
+            InitArchipelago.GetArchipelagoComponent().Logs.Add(new LogEntry($"You recall a name: {newItemInfo.ItemName}"));
         }
         else
         {

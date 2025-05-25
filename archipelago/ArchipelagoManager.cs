@@ -36,6 +36,7 @@ internal static class ArchipelagoManager
     private static void OnItemReceived(ObraDinnItemInfo item)
     {
         itemQueue.Enqueue(item);
+        VerifyAllItems();
     }
 
     private static void OnItemToVerifyReceived(ObraDinnItemInfo item)
