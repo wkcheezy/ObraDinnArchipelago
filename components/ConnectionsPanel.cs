@@ -163,16 +163,14 @@ internal class ConnectionsPanel : MonoBehaviour
         {
             if (pageNum >= Math.Max((int)Math.Ceiling((decimal)dataList.Count / maxDisplay), 1)) return;
             pageNum++;
-            // TODO: Would be better code if we combine these calls/methods somehow since we seem to be doing both one after another
             UpdateFileListings();
-            UpdatePageText();
+            
         });
         pageButtonPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() =>
         {
             if (pageNum <= 1) return;
             pageNum--;
             UpdateFileListings();
-            UpdatePageText();
         });
 
         // Hide connection list entry prefab
@@ -186,7 +184,6 @@ internal class ConnectionsPanel : MonoBehaviour
     {
         pageNum = 1;
         UpdateFileListings();
-        UpdatePageText();
         _existingConnectionsPanel.SetActive(true);
     }
 
@@ -220,6 +217,7 @@ internal class ConnectionsPanel : MonoBehaviour
                 value.child.GetComponent<ListButton>().texts = [text];
             }
         }
+        UpdatePageText();
     }
 
     private void Update()
@@ -238,7 +236,6 @@ internal class ConnectionsPanel : MonoBehaviour
                 UpdateFileListings();
             }
 
-            UpdatePageText();
         }
 
         if (Input.GetKeyUp(KeyCode.Escape) && !ArchipelagoClient.IsConnecting && transform.GetChild(1).gameObject.activeSelf == false)
