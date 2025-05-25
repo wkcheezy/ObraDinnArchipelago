@@ -238,7 +238,7 @@ internal class ConnectionsPanel : MonoBehaviour
                 UpdateFileListings();
             }
             else if (Input.GetKeyUp(KeyCode.RightArrow) &&
-                     pageNum < Math.Max((int)Math.Ceiling((decimal)_dataList.Count / maxDisplay), 1))
+                     pageNum < Math.Max((int)Math.Ceiling((decimal)dataList.Count / maxDisplay), 1))
             {
                 pageNum++;
                 UpdateFileListings();
@@ -247,8 +247,7 @@ internal class ConnectionsPanel : MonoBehaviour
             UpdatePageText();
         }
 
-        if (!Input.GetKeyUp(KeyCode.Escape)) return;
-        if (transform.GetChild(1).gameObject.activeSelf == false)
+        if (Input.GetKeyUp(KeyCode.Escape) && !ArchipelagoClient.IsConnecting && transform.GetChild(1).gameObject.activeSelf == false)
         {
             gameObject.SetActive(false);
         }

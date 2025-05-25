@@ -63,7 +63,7 @@ internal class NewConnectionPanel : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (!Input.GetKeyUp(KeyCode.Escape) || ArchipelagoClient.IsConnecting) return;
         {
             gameObject.SetActive(false);
         }
