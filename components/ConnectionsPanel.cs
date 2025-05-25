@@ -198,11 +198,10 @@ internal class ConnectionsPanel : MonoBehaviour
 
     private void UpdateFileListings()
     {
-        foreach (var value in _existingConnectionsPanel.AllChildren().Select((child, i) => new {child, i}))
+        foreach (var value in _existingConnectionsPanel.AllChildren().Where((o) => o.name == "Existing Connection(Clone)").Select((child, i) => new {child, i}))
         {
-            if (value.child.name != "Existing Connection(Clone)") continue;
-            var dataIndex = value.i - 2 + maxDisplay * (pageNum - 1);
-            if (dataIndex > _dataList.Count) value.child.SetActive(false);
+            var dataIndex = value.i + maxDisplay * (pageNum - 1);
+            if (dataIndex > dataList.Count - 1) value.child.SetActive(false);
             else
             {
                 if (value.child.activeSelf == false) value.child.SetActive(true);
