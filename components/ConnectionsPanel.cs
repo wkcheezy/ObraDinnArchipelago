@@ -215,9 +215,6 @@ internal class ConnectionsPanel : MonoBehaviour
 
                     ArchipelagoClient.ConnectAsync(connection.Value.Data.hostName, connection.Value.Data.port,
                         connection.Value.Data.slotName, connection.Value.Data.password);
-                    ArchipelagoData.Data = connection.Value.Data;
-                    ArchipelagoData.saveId = Path.GetFileNameWithoutExtension(connection.Value.FileName);
-                    StartCoroutine(PostConnect(ArchipelagoData.saveId));
                 });
 
                 value.child.GetComponent<ListButton>().texts = [text];
@@ -249,31 +246,5 @@ internal class ConnectionsPanel : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-    }
-
-    private IEnumerator PostConnect(string saveId)
-    {
-        yield return new WaitUntil(() => !ArchipelagoClient.IsConnecting);
-
-        if (!ArchipelagoClient.IsConnected) yield break;
-        // if (ArchipelagoData.Data.seed != "" &&
-        //     ArchipelagoClient.session.RoomState.Seed != ArchipelagoData.Data.seed)
-        // {
-        //
-        // }
-
-        yield return new WaitForSeconds(0.75f);
-
-        ArchipelagoManager.InitializeFromServer();
-
-        yield return null;
-
-        ArchipelagoManager.VerifyAllItems();
-
-        yield return null;
-
-        // TODO: Need to ensure when switching between saves that we're loading the correct save
-        Settings.activeSaveId = ArchipelagoData.saveId;
-        Game.LoadSave(saveId);
     }
 }
