@@ -1,0 +1,9 @@
+{
+	"name": "ObraDinnArchipelago",
+	"description": "Archipelago integration for Return of the Obra Dinn",
+	"version_number": "0.0.1",
+	"dependencies": [
+		"BepInEx-BepInExPack-5.4.2100"
+	],
+	"website_url": "https://github.com/wkcheezy/ObraDinnArchipelago"
+}

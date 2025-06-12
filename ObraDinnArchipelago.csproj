@@ -5,7 +5,7 @@
         <AssemblyName>ObraDinnArchipelago</AssemblyName>
         <Product>Archipelago</Product>
         <Description>Archipelago randomizer for Return of the Obra Dinn</Description>
-        <Version>1.0.0</Version>
+        <Version>0.0.1</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
         <RestoreAdditionalProjectSources>
@@ -75,8 +75,8 @@
         <EmbeddedResource Remove="game\**" />
         <None Remove="game\**" />
     </ItemGroup>
-
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
         <PropertyGroup>
             <!-- Directory where Obra Dinn executable and plugins directory is housed -->
             <ObraDinnDirectory>D:\GOG Galaxy\Games\Return of the Obra Dinn\</ObraDinnDirectory>
@@ -91,6 +91,19 @@
         <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="$(ObraDinnDirectory)$(PluginsDirectory)" />
         <!--        <Message Text="Opening Obra Dinn"/>-->
         <!--        <Exec Command="Start &quot;&quot; &quot;$(ObraDinnDirectory)$(ObraDinnExecutable)&quot;"/>-->
+    </Target>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
+        <PropertyGroup>
+            <OutputDirectory>$(ProjectDir)$(ProjectName)_</OutputDirectory>
+        </PropertyGroup>
+        <ItemGroup>
+            <SourceFiles Include="$(TargetDir)$(ProjectName).dll;$(TargetDir)Archipelago.MultiClient.Net.dll;$(TargetDir)Newtonsoft.Json.dll;$(TargetDir)websocket-sharp.dll;$(ProjectDir)icon.png;$(ProjectDir)manifest.json;$(ProjectDir)README.md" />
+        </ItemGroup>
+        <Message Text="Creating Thunderstore package" />
+        <Copy SourceFiles="@(SourceFiles)" DestinationFolder="$(OutputDirectory)" />
+        <ZipDirectory SourceDirectory="$(OutputDirectory)" DestinationFile="$(OutputDirectory).zip" />
+        <RemoveDir Directories="$(OutputDirectory)" />
     </Target>
 
 </Project>
