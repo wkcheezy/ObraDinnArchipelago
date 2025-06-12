@@ -46,3 +46,5 @@ assets/*
 !assets/archiassets
 !assets/*.cs
 game/
+
+ObraDinnArchipelago_*

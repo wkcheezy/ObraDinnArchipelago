@@ -11,35 +11,42 @@ found [here](https://archipelago.gg/tutorial/Archipelago/setup/en#on-your-local-
 
 ### First Time Setup
 
-1. [Add the latest APWorld](https://github.com/wkcheezy/ObraDinnArchipelagoWorld/releases) to your Archipelago 'worlds'
-   folder
-2. [Install BepInEx](https://docs.bepinex.dev/articles/user_guide/installation/index.html#installing-bepinex) Note: If
-   on Windows, use the x86 version
-3. [Download and unzip the latest release](https://github.com/wkcheezy/ObraDinnArchipelago/releases) to the bepinex plugins folder
+1. [Add the latest APWorld](https://github.com/wkcheezy/ObraDinnArchipelagoWorld/releases) to your Archipelago 'worlds' folder.
+2. Download a supported mod manager (recommended), or manually set up the mod. **If you need to switch methods, ensure all files and programs from one method are removed before switching**.
+
+#### Mod Manager Setup
+
+3. Download and install either [r2modman](https://github.com/ebkr/r2modmanPlus/releases/latest) or the [Thunderstore Mod Manager](https://www.overwolf.com/app/thunderstore-thunderstore_mod_manager) 
+4. Locate "Return of the Obra Dinn" in the list of games, then click on "Select Game" when hovering over it. *Recommended: Star the entry before clicking on "Select Game", you'll need to find it every time you wish to launch the game*
+5. On the Profile selection screen, select either "Create new" to create a new profile (if you want to keep this mod separate from other mods) or "Select profile" (if you're fine with keeping your mods in one place)
+6. In the sidebar, click on "Online", search for "Archipelago" in the top bar, click on the "Obra Dinn Archipelago" mod, then click "Download".
+
+#### Manual Mod Setup
+
+3. [Install BepInEx](https://docs.bepinex.dev/articles/user_guide/installation/index.html#installing-bepinex). Note: If on Windows, use the x86 version.
+4. [Download and unzip the latest release](https://github.com/wkcheezy/ObraDinnArchipelago/releases) to the bepinex plugins folder
 
 ### Connecting to Archipelago
 
-1. Create your YAML file **Note: It's highly
-   recommended that you use different slot names for each Archipelago session, to help differentiate between saved
-   sessions**
-2. Launch the Obra Dinn client in the main Archipelago client (should be a button in the right column that says "Return
-   of the Obra Dinn Client")
+1. Create your YAML file. **Highly recommended to use different slot names for each Archipelago session, to help differentiate between saved sessions**
+2. Launch the Obra Dinn client in the main Archipelago client (should be a button in the right column that says "Return of the Obra Dinn Client")
 3. Connect to your session through the Obra Dinn client
-4. Once connected, launch your copy of *Return of the Obra Dinn* and click "Start"
-5. If you're connecting to a session you've connected to before, the slot name and start date should be listed; click on
+4. Once connected, launch your modded copy of *Return of the Obra Dinn*:
+   - **If you followed the [Mod Manager Setup](#mod-manager-setup) process**: 
+      1. Launch r2modman/Thunderstore Mod Manager
+      2. Find "Return of the Obra Dinn" in the games list, then click "Select Game"
+      3. Click "Select profile" on the profile that contains your Archipelago mod
+      4. Click on "Start modded"
+   - **If you followed the [Manual Mod Setup](#manual-mod-setup) process**, locate your game executable and launch it.
+5. Once the game has launched, click "Start".
+6. If you're connecting to a session you've connected to before, the slot name and start date should be listed; click on
    it and you should connect automatically
-6. If you're connecting to a new sessions, click on "New Connection". Enter the following details, then hit Connect
-    1. The first text box lists the **Obra Dinn client** address, not the Archipelago server address, and as such should
-       not need to be changed from the default (Future update will allow the client to swap from its default port, so
-       that's what this text box is for)
+7. If you're connecting to a new sessions, click on "New Connection". Enter the following details, then hit Connect
+    1. Do not change the value in the first text box.
     2. Enter your slot name in the second text box
     3. Enter the server password in the third text box; if there's no password, clear the field
-7. If the details you've entered match an existing connection's details, you'll be warned that there's an existing save
-   file that might be the one you want to connect with. If you're 100% certain that you need to create a new session
-   connection, hit 'Connect' again. You should be connected!
-
-Note: These instructions are to set up the mod in its current prerelease state. The plan is to eventually distribute mod
-on a mod loader/hoster website to reduce manual setup; once that happens, these instructions will be updated
+8. A warning will appear if the details you've entered match an existing connection's details. If you're certain that you need to create a new session connection, hit 'Connect' again. 
+9. You should be connected!
 
 ## Development
 
