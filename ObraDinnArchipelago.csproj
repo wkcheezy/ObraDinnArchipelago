@@ -75,8 +75,8 @@
         <EmbeddedResource Remove="game\**" />
         <None Remove="game\**" />
     </ItemGroup>
-
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
         <PropertyGroup>
             <!-- Directory where Obra Dinn executable and plugins directory is housed -->
             <ObraDinnDirectory>D:\GOG Galaxy\Games\Return of the Obra Dinn\</ObraDinnDirectory>
