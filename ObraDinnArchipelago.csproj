@@ -98,7 +98,7 @@
             <OutputDirectory>$(ProjectDir)$(ProjectName)_</OutputDirectory>
         </PropertyGroup>
         <ItemGroup>
-            <SourceFiles Include="$(TargetDir)$(ProjectName).dll;$(TargetDir)Archipelago.MultiClient.Net.dll;$(TargetDir)Assembly-CSharp-firstpass.dll;$(TargetDir)Assembly-CSharp.dll;$(TargetDir)Newtonsoft.Json.dll;$(TargetDir)websocket-sharp.dll;$(ProjectDir)icon.png;$(ProjectDir)manifest.json;$(ProjectDir)README.md" />
+            <SourceFiles Include="$(TargetDir)$(ProjectName).dll;$(TargetDir)Archipelago.MultiClient.Net.dll;$(TargetDir)Newtonsoft.Json.dll;$(TargetDir)websocket-sharp.dll;$(ProjectDir)icon.png;$(ProjectDir)manifest.json;$(ProjectDir)README.md" />
         </ItemGroup>
         <Message Text="Creating Thunderstore package" />
         <Copy SourceFiles="@(SourceFiles)" DestinationFolder="$(OutputDirectory)" />
