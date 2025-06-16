@@ -12,9 +12,9 @@ found [here](https://archipelago.gg/tutorial/Archipelago/setup/en#on-your-local-
 ### First Time Setup
 
 1. [Add the latest APWorld](https://github.com/wkcheezy/ObraDinnArchipelagoWorld/releases) to your Archipelago 'worlds' folder.
-2. Download a supported mod manager (recommended), or manually set up the mod. **If you need to switch methods, ensure all files and programs from one method are removed before switching**.
+2. ~~Download a supported mod manager (recommended), or~~ manually set up the mod. **If you need to switch methods, ensure all files and programs from one method are removed before switching**.
 
-#### Mod Manager Setup
+#### Mod Manager Setup (Currently Broken)
 
 3. Download and install either [r2modman](https://github.com/ebkr/r2modmanPlus/releases/latest) or the [Thunderstore Mod Manager](https://www.overwolf.com/app/thunderstore-thunderstore_mod_manager) 
 4. Locate "Return of the Obra Dinn" in the list of games, then click on "Select Game" when hovering over it. *Recommended: Star the entry before clicking on "Select Game", you'll need to find it every time you wish to launch the game*
